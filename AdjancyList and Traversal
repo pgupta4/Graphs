@@ -1,0 +1,93 @@
+import java.lang.*;
+import java.util.*;
+
+public class AdjancyListGraph {
+	private Map<Integer, List<Integer>> AdjancyList;
+	
+	public AdjancyListGraph(int NoOfVertices)
+	{
+		AdjancyList = new HashMap<Integer, List<Integer>>();
+		for(int i=0; i < NoOfVertices; i++)
+		{
+			AdjancyList.put(i, new LinkedList<Integer>());
+		}
+	}
+	public void addEdge(int source, int destination)
+	{
+		if(source > AdjancyList.size() || destination > AdjancyList.size())
+		{
+			System.out.println("Source and Destinations not available");
+			return;
+		}
+		
+		List<Integer> slist = AdjancyList.get(source);
+		//List<Intger> dList = AdjancyList.get(destination); //if undirected graph
+		slist.add(destination);
+		
+	}
+	public List<Integer> getEdge(int source)
+	{
+		if(source > AdjancyList.size() )
+		{
+			System.out.println("Source is not available");
+			return null;
+		}
+		List<Integer> sList = AdjancyList.get(source);
+		return sList;
+		
+	}
+	public void printAdjancentNode(int source)
+	{
+		List<Integer> sList = getEdge(source);
+		if(sList == null)
+		{
+			System.out.println("List is Empty, No nodes are adjacent");
+			return;
+		}
+		int i =0 ;
+		while( i < sList.size())
+		{
+			System.out.println(sList.get(i));
+			i++;
+		}
+		
+	}
+	public void printGraph()
+	{
+		if(AdjancyList == null)
+		{
+			System.out.println("Graph is Empty");
+			return;
+		}
+		Set list= AdjancyList.entrySet();
+		System.out.println(list);
+	}
+	public void breadthFirstTraversal(int source)
+	{
+		int visited[] = new int[AdjancyList.size()];
+		for(int i=0; i<visited.length; i++)
+		{
+			visited[i]=0;
+		}
+		Queue<Integer> q = new LinkedList<Integer>();
+		q.add(source);
+		visited[source]=1;
+		while( !q.isEmpty())
+		{
+			int currentNode = q.remove();
+			System.out.println(currentNode);	
+			List<Integer> list = AdjancyList.get(currentNode);
+			Iterator<Integer> i = list.iterator();
+				while(i.hasNext())
+				{
+					int n = i.next();
+					if(visited[n] == 0){
+						q.add(n);
+						visited[n] = 1;
+					}
+				}
+			}
+		}
+		
+	
+}
